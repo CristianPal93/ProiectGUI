@@ -125,8 +125,8 @@ public class Planet {
             ((GLMatrixFunc) gl).glPushMatrix();
             gl2.glColor3ub((byte) 158, (byte) 145, (byte) 137);
             ((GLMatrixFunc) gl).glRotatef(-63.0f, 1.0f, 0.0f, 0.0f);
-            glut.glutWireTorus(0.15, 4.0, 8, 30);
-            glut.glutWireTorus(0.3, 3.25, 8, 30);
+            glut.glutWireTorus(0.15, 4.0, 3, 60);
+            glut.glutWireTorus(0.3, 3.25, 3, 60);
             ((GLMatrixFunc) gl).glPopMatrix();
         }
         if (showSatellitesOrbit == 1) {
@@ -146,19 +146,7 @@ public class Planet {
 
     ;
 
-    private void drawSphere(GL gl, GLU glu, float radius, boolean texturing) {
 
-
-        GLUquadric sphere = glu.gluNewQuadric();
-        if (texturing) {
-            // Enabling texturing on the quadric.
-            glu.gluQuadricTexture(sphere, true);
-        }
-        glu.gluSphere(sphere, radius, 64, 64);
-        glu.gluDeleteQuadric(sphere);
-    }
-
-    ;
 
 
 }

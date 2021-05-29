@@ -66,6 +66,8 @@ public class MainFrame
 	// Set camera orientation
 	float cameraUpx = 0.0f, cameraUpy = 1.0f, cameraUpz = 0.0f;
 	private boolean[] keys = new boolean[250];
+	float eyeX=0;
+	float eyeY=0;
 
 
 
@@ -86,7 +88,7 @@ public class MainFrame
         gl.glEnable(GL2.GL_LIGHTING);
         float lightPos[] = {0.0f, 0.0f, -45.0f, 1.0f};
         float spotExponent = 1.0f;
-        float lightAmb[] = {0.0f, 0.0f, 0.0f, 1.0f};
+        float lightAmb[] = {1.0f, 1.0f, 1.0f, 1.0f};
         float lightDifAndSpec[] = {1.0f, 1.0f, 1.0f, 1.0f};
         float globAmb[] = {0.4f, 0.4f, 0.4f, 1.0f};
         gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_AMBIENT, lightAmb, 0);
@@ -180,17 +182,17 @@ public class MainFrame
         // Selecting the modelview matrix.
         gl.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
 //
-        this.sun = new Planet(0.25f, 0f, 0f, 0f, "Sun", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu);
+        this.sun = new Planet(3.0f, 0f, 0f, 0f, "Sun", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu);
         this.planets = new ArrayList<Planet>(
                 Arrays.asList(
-                        new Planet(0.1f, 0.3f, 0.2f, 0.1f, "Mercury", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu),
-                        new Planet(0.12f, 0.4f, 0.9f, 0.3f, "Venus", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu),
-                        new Planet(0.13f, -0.3f, -0.3f, 0.5f, "Earth", new ArrayList<Planet>(
+                        new Planet(0.7f, 4.5f, 8.5f, 2.11f, "Mercury", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu),
+                        new Planet(1.0f, 8.0f, 5.5f, 177.0f, "Venus", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu),
+                        new Planet(1.0f, 12.0f, 3.8f, 23.44f, "Earth", new ArrayList<Planet>(
 //                                Arrays.asList(
 //                                        new Planet(0.4f, 2.0f, 5.40f, 0f, "", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu)
 //                                )
                         ), canvas.getGL(), this.gl, this.glu),
-                        new Planet(0.11f, 16.5f, 2.41f, 25.00f, "Mars", new ArrayList<Planet>(
+                        new Planet(0.8f, 16.5f, 2.41f, 25.00f, "Mars", new ArrayList<Planet>(
 //                                Arrays.asList(
 //                                        new Planet(0.2f, 1.4f, 2.30f, 0f, "", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu),
 //                                        new Planet(0.16f, 1.7f, 3.60f, 0f, "", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu)
@@ -396,22 +398,29 @@ public class MainFrame
 		
 		if (event.getKeyCode() == KeyEvent.VK_UP) {
 			cameraElevation -= 1f;
-			zoom-=1f;
-			System.out.println("Hello");
+//			zoom-=1f;
+//			System.out.println("Hello");
+			eyeY+=1f;
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_DOWN) {
 			cameraElevation += 1f;
-			zoom+=1f;
+//			zoom+=1f;
+			eyeY-=1f;
+
 
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
 			cameraAzimuth -= 2;
+			eyeX+=1f;
+
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_LEFT) {
 			cameraAzimuth += 2;
+			eyeX-=1f;
+
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_I) {
@@ -450,9 +459,9 @@ public class MainFrame
 		float widthHeightRatio = (float) getWidth() / (float) getHeight();
 		glu.gluPerspective(45, widthHeightRatio, 1, 1000);
 //		glu.gluLookAt(0, 0, distance, 0, 0, 0, 0, 1f, 0f);
-		System.out.println(cameraCoordsPosx+" "+cameraCoordsPosy+" "+cameraCoordsPosz+" "+cameraUpx+" "+cameraUpy+" "+cameraUpz);
+//		System.out.println(cameraCoordsPosx+" "+cameraCoordsPosy+" "+cameraCoordsPosz+" "+cameraUpx+" "+cameraUpy+" "+cameraUpz);
 		
-		glu.gluLookAt(cameraCoordsPosx, cameraCoordsPosy, distance, cameraCoordsPosx,
+		glu.gluLookAt(eyeX, eyeY, distance, cameraCoordsPosx,
 				cameraCoordsPosy, cameraCoordsPosz, cameraUpx, cameraUpy, cameraUpz);
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
 		gl.glLoadIdentity();
