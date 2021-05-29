@@ -1,6 +1,13 @@
 
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +29,10 @@ import com.jogamp.opengl.util.Animator;
 
 public class MainFrame
         extends JFrame
-        implements GLEventListener {
+        implements GLEventListener,KeyListener,
+		MouseListener,
+		MouseMotionListener,
+		MouseWheelListener{
 
     /**
      *
@@ -49,6 +59,15 @@ public class MainFrame
     // For specifying the positions of the clipping planes (increase/decrease the distance) modify this variable.
     // It is used by the glOrtho method.
     private double v_size = 1.0;
+    float cameraAzimuth = 0.0f, cameraSpeed = 0.0f, cameraElevation = 0.0f;
+
+	float cameraCoordsPosx = 0.0f, cameraCoordsPosy = 0.0f, cameraCoordsPosz = -20.0f;
+
+	// Set camera orientation
+	float cameraUpx = 0.0f, cameraUpy = 1.0f, cameraUpz = 0.0f;
+	private boolean[] keys = new boolean[250];
+
+
 
     TextureHandler starsTexture;
 
@@ -59,7 +78,7 @@ public class MainFrame
         gl.glEnable(GL2.GL_NORMALIZE);
         gl.glEnable(GL2.GL_COLOR_MATERIAL);
         GLUgl2 glugl = new GLUgl2();
-        starsTexture = new TextureHandler(gl, glugl, "C:\\Users\\Mara Sferdian\\Desktop\\ProiectGUI\\ProiectGUI\\texture\\stars.bmp", false);
+        starsTexture = new TextureHandler(gl, glugl, "/Users/macbook/git/ProiectGUI/ProiectGUI/texture/stars.bmp", false);
         sun.setTexture();
         for (Planet p : planets) {
             p.setTexture();
@@ -141,6 +160,10 @@ public class MainFrame
         // Creating an animator that will redraw the scene 40 times per second.
         this.animator = new Animator(this.canvas);
 
+        this.canvas.addKeyListener(this);
+		this.canvas.addMouseListener(this);
+		this.canvas.addMouseMotionListener(this);
+		this.canvas.addMouseWheelListener(this);
         // Starting the animator.
         this.animator.start();
 
@@ -210,34 +233,36 @@ public class MainFrame
 
         // Erasing the canvas -- filling it with the clear color.
         gl.glClear(GL.GL_COLOR_BUFFER_BIT);
+        
+        setCamera(gl, zoom);
+        aimCamera(gl, this.glu);
+		moveCamera();
 
         // Add your scene code here
 
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
         ((GLMatrixFunc) gl).glPushMatrix();
-        switch (cameraPosition) {
-            case 0:
-                this.glu.gluLookAt(0.0, zoom, 50.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-                break;
-            case 1:
-                this.glu.gluLookAt(0.0, 0.0, zoom, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-                break;
-            case 2:
-                this.glu.gluLookAt(0.0, zoom, 0.00001, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-                break;
-        }
+//        switch (cameraPosition) {
+//            case 0:
+//                this.glu.gluLookAt(0.0, zoom, 50.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+//                break;
+//            case 1:
+//                this.glu.gluLookAt(0.0, 0.0, zoom, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+//                break;
+//            case 2:
+//                this.glu.gluLookAt(0.0, zoom, 0.00001, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+//                break;
+//        }
 //
         if (showPlanetOrbits == 1) {
             orbitalTrails();
         }
         GLUquadric quadric = glu.gluNewQuadric();
-//
         sun.draw(showLabels, showSatelliteOrbit, showSatellites, quadric);
         for (Planet p : planets) {
             p.draw(showLabels, showSatelliteOrbit, showSatellites, quadric);
         }
-//
         this.starsTexture.enable();
         this.starsTexture.bind();
         gl.glBegin(GL2.GL_POLYGON);
@@ -297,10 +322,10 @@ public class MainFrame
 
         // Selecting the view volume to be x from 0 to 1, y from 0 to 1, z from -1 to 1.
         // But we are careful to keep the aspect ratio and enlarging the width or the height.
-//        if (ratio < 1)
-//            gl.glOrtho(-v_size, v_size, -v_size, v_size / ratio, -5, 5);
-//        else
-//            gl.glOrtho(-v_size, v_size * ratio, -v_size, v_size, -5, 5);
+        if (ratio < 1)
+            gl.glOrtho(-v_size, v_size, -v_size, v_size / ratio, -5, 5);
+        else
+            gl.glOrtho(-v_size, v_size * ratio, -v_size, v_size, -5, 5);
 
         // Selecting the modelview matrix.
         gl.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
@@ -315,4 +340,202 @@ public class MainFrame
     public void dispose(GLAutoDrawable arg0) {
         // TODO Auto-generated method stub
     }
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent event) {
+		// TODO Auto-generated method stub
+		System.out.println(event.getKeyCode());
+		
+		if (event.getKeyCode() == KeyEvent.VK_UP) {
+			cameraElevation -= 1f;
+			zoom-=1f;
+			System.out.println("Hello");
+		}
+
+		if (event.getKeyCode() == KeyEvent.VK_DOWN) {
+			cameraElevation += 1f;
+			zoom+=1f;
+
+		}
+
+		if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
+			cameraAzimuth -= 2;
+		}
+
+		if (event.getKeyCode() == KeyEvent.VK_LEFT) {
+			cameraAzimuth += 2;
+		}
+
+		if (event.getKeyCode() == KeyEvent.VK_I) {
+			cameraSpeed += 0.05;
+		}
+
+		if (event.getKeyCode() == KeyEvent.VK_O) {
+			cameraSpeed -= 0.05;
+		}
+
+		if (event.getKeyCode() == KeyEvent.VK_S) {
+			cameraSpeed = 0;
+		}
+		if (event.getKeyCode() < 250)
+			keys[event.getKeyCode()] = true;
+
+		if (cameraAzimuth > 359)
+			cameraAzimuth = 1;
+
+		if (cameraAzimuth < 1)
+			cameraAzimuth = 359;
+	}
+		
+	
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void setCamera(GL2 gl, float distance) {
+		gl.glMatrixMode(GL2.GL_PROJECTION);
+		gl.glLoadIdentity();
+
+		float widthHeightRatio = (float) getWidth() / (float) getHeight();
+		glu.gluPerspective(45, widthHeightRatio, 1, 1000);
+//		glu.gluLookAt(0, 0, distance, 0, 0, 0, 0, 1f, 0f);
+		System.out.println(cameraCoordsPosx+" "+cameraCoordsPosy+" "+cameraCoordsPosz+" "+cameraUpx+" "+cameraUpy+" "+cameraUpz);
+		
+		glu.gluLookAt(cameraCoordsPosx, cameraCoordsPosy, distance, cameraCoordsPosx,
+				cameraCoordsPosy, cameraCoordsPosz, cameraUpx, cameraUpy, cameraUpz);
+		gl.glMatrixMode(GL2.GL_MODELVIEW);
+		gl.glLoadIdentity();
+
+		
+	}
+	private float[] polarToCartesian(float azimuth, float length, float altitude) {
+		float[] result = new float[3];
+		float x, y, z;
+
+		// Do x-z calculation
+		float theta = (float) Math.toRadians(90 - azimuth);
+		float tantheta = (float) Math.tan(theta);
+		float radian_alt = (float) Math.toRadians(altitude);
+		float cospsi = (float) Math.cos(radian_alt);
+
+		x = (float) Math.sqrt((length * length) / (tantheta * tantheta + 1));
+		z = tantheta * x;
+
+		x = -x;
+
+		if ((azimuth >= 180.0 && azimuth <= 360.0) || azimuth == 0.0f) {
+			x = -x;
+			z = -z;
+		}
+
+		// Calculate y, and adjust x and z
+		y = (float) (Math.sqrt(z * z + x * x) * Math.sin(radian_alt));
+
+		if (length < 0) {
+			x = -x;
+			z = -z;
+			y = -y;
+		}
+
+		x = x * cospsi;
+		z = z * cospsi;
+
+		result[0] = x;
+		result[1] = y;
+		result[2] = z;
+
+		return result;
+	}
+	public void moveCamera() {
+		float[] tmp = polarToCartesian(cameraAzimuth, cameraSpeed, cameraElevation);
+		cameraCoordsPosx += tmp[0];
+		cameraCoordsPosy += tmp[1];
+		cameraCoordsPosz += tmp[2];
+		
+	}
+
+	public void aimCamera(GL2 gl, GLU glu) {
+		gl.glLoadIdentity();
+
+//		float[] tmp = polarToCartesian(cameraAzimuth, 100.0f, cameraElevation);
+
+		float[] camUp = polarToCartesian(cameraAzimuth, 100.0f, cameraElevation + 90);
+
+		cameraUpx = camUp[0];
+		cameraUpy = camUp[1];
+		cameraUpz = camUp[2];
+//
+//		glu.gluLookAt(cameraCoordsPosx, cameraCoordsPosy, zoom, cameraCoordsPosx + tmp[0],
+//				cameraCoordsPosy + tmp[1], cameraCoordsPosz + tmp[2], cameraUpx, cameraUpy, cameraUpz);
+////		System.out.println(cameraCoordsPosx+" "+cameraCoordsPosy+" "+cameraCoordsPosz+" "+cameraUpx+" "+cameraUpy+" "+cameraUpz);
+//		gl.glMatrixMode(GL2.GL_MODELVIEW);
+//		gl.glLoadIdentity();
+		
+
+	}
+
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		// TODO Auto-generated method stub
+		System.out.println(e.getWheelRotation());
+		if(e.getWheelRotation()<0 && zoom < 100) {
+			zoom++;
+		}
+		if(e.getWheelRotation()>0 && zoom > -75 ) {
+			zoom--;
+		}
+		
+		
+	}
 }

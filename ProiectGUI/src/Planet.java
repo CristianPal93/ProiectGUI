@@ -42,7 +42,7 @@ public class Planet {
         String imageName = name.toLowerCase();
         GLUgl2 glugl = new GLUgl2();
         System.out.println(imageName);
-        TextureHandler handler = new TextureHandler(gl2, glugl, "C:\\Users\\Mara Sferdian\\Desktop\\ProiectGUI\\ProiectGUI\\texture\\" + imageName + ".bmp", false);
+        TextureHandler handler = new TextureHandler(gl2, glugl, "/Users/macbook/git/ProiectGUI/ProiectGUI/texture/" + imageName + ".bmp", false);
         handler.enable();
     }
 
@@ -111,7 +111,7 @@ public class Planet {
 //	    gl.glBindTexture(GL.GL_TEXTURE_2D, textureId);
         String imageName = name.toLowerCase();
         GLUgl2 glugl = new GLUgl2();
-        TextureHandler handler = new TextureHandler(gl2, glugl, "C:\\Users\\Mara Sferdian\\Desktop\\ProiectGUI\\ProiectGUI\\texture\\" + imageName + ".bmp", false);
+        TextureHandler handler = new TextureHandler(gl2, glugl, "/Users/macbook/git/ProiectGUI/ProiectGUI/texture/" + imageName + ".bmp", false);
         handler.bind();
         handler.enable();
 
