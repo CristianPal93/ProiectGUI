@@ -39,7 +39,7 @@ public class TextureHandler {
                 GL2.GL_LINEAR);
 
         gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_NEAREST);
-	    gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_NEAREST);
+        gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_NEAREST);
 
         // Construct the texture and use mipmapping in the process.
         this.makeRGBTexture(this.gl, this.glu, tex[0], GL2.GL_TEXTURE_2D, mipmapped);

@@ -6,6 +6,7 @@ import java.io.InputStream;
 
 /**
  * Windows bitmap file loader.
+ *
  * @author Abdul Bezrati
  * @author Pepijn Van Eeckhoudt
  */
