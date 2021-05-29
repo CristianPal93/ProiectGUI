@@ -20,11 +20,13 @@ public class Planet {
     List<Planet> satellites = new ArrayList<>();
     float orbitAnimation = 0.0f;
     float axisAnimation = 0.0f;
-
+    TextureHandler rings;
+    TextureHandler moon;
     GLUT glut = new GLUT();
     GL2 gl2;
     GLU glu;
     GL gl;
+    
 
     Planet(float radius, float distance, float orbitSpeed, float axisTilt, String name, ArrayList<Planet> satellites, GL gl, GL2 gl2, GLU glu) {
         this.radius = radius;
@@ -36,17 +38,46 @@ public class Planet {
         this.gl = gl;
         this.gl2 = gl2;
         this.glu = glu;
+        setMaterialProp(name,gl2);
+        GLUgl2 glugl = new GLUgl2();
+        setTexture();
     }
+    
+    private void setMaterialProp(String name,GL2 gl) {
+    	float[] rgba = { 1f, 1f, 1f };
+		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_AMBIENT, rgba, 0);
+		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, rgba, 0);
+		
+		if(name.contentEquals("Sun")) {
+			
+			float SHINE_ALL_DIRECTIONS = 1;
+			float[] lightPos = { 0, 0, 0, 0 };
+			float[] lightColorAmbient = { 0.5f, 0.5f, 0.5f, 1f };
+			float[] lightColorSpecular = { 0.8f, 0.8f, 0.8f, 1f };
+			gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_POSITION, lightPos, 0);
+//			gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_AMBIENT, lightColorAmbient, 0);
+//			gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_SPECULAR, lightColorSpecular, 0);
+//			gl.glMaterialf(GL2.GL_FRONT, GL2.GL_SHININESS, 1f);
+			gl.glEnable(GL2.GL_LIGHT1);
+			gl.glEnable(GL2.GL_LIGHTING);
+		
+		}else {
+		
+			gl.glMaterialf(GL2.GL_FRONT, GL2.GL_SHININESS, 0.6f);
+		}
+    }
+    
+    
 
     void setTexture() {
-        String imageName = name.toLowerCase();
-        GLUgl2 glugl = new GLUgl2();
-        System.out.println(imageName);
-        TextureHandler handler = new TextureHandler(gl2, glugl, "/Users/macbook/git/ProiectGUI/ProiectGUI/texture/" + imageName + ".bmp", false);
-        handler.enable();
-    }
 
-    ;
+    	 GLUgl2 glugl = new GLUgl2();
+         this.rings = new TextureHandler(gl2, glugl, MainFrame.devPath +"mercury.bmp", false);
+         this.moon = new TextureHandler(gl2, glugl, MainFrame.devPath +"moontexture.jpg", false);
+        
+
+    };
+
 
     void move(float speedExp) {
         orbitAnimation += orbitSpeed * Math.pow(2.0, speedExp);
@@ -55,7 +86,6 @@ public class Planet {
         }
     }
 
-    ;
 
     void rotate(float speedExp) {
         axisAnimation += 10.0 * Math.pow(2.0, speedExp);
@@ -65,7 +95,7 @@ public class Planet {
         this.glut.glutWireTorus(0.001, distance, 6, 100);
     }
 
-    ;
+
 
     void drawSmallOrbit() {
         ((GLMatrixFunc) gl).glPushMatrix();
@@ -111,7 +141,7 @@ public class Planet {
 //	    gl.glBindTexture(GL.GL_TEXTURE_2D, textureId);
         String imageName = name.toLowerCase();
         GLUgl2 glugl = new GLUgl2();
-        TextureHandler handler = new TextureHandler(gl2, glugl, "/Users/macbook/git/ProiectGUI/ProiectGUI/texture/" + imageName + ".bmp", false);
+        TextureHandler handler = new TextureHandler(gl2, glugl, MainFrame.devPath  + imageName + ".bmp", false);
         handler.bind();
         handler.enable();
 
@@ -120,14 +150,23 @@ public class Planet {
 
         handler.disable();
         ((GLMatrixFunc) gl).glPopMatrix();
-        if (name == "Saturn") {
+        if (name.contentEquals("Saturn")) {
             // Draw Saturn's rings
+           
+            rings.bind();
+            rings.enable();
             ((GLMatrixFunc) gl).glPushMatrix();
             gl2.glColor3ub((byte) 158, (byte) 145, (byte) 137);
             ((GLMatrixFunc) gl).glRotatef(-63.0f, 1.0f, 0.0f, 0.0f);
-            glut.glutWireTorus(0.15, 4.0, 3, 60);
-            glut.glutWireTorus(0.3, 3.25, 3, 60);
+//            glut.glutWireTorus(0.15, 4.0, 3, 60);
+           
+            glut.glutSolidSphere(0.15, 60, 3);
+//            ringHandler.bind();
+//            ringHandler.enable();
+//            glut.glutWireTorus(0.3, 3.25, 3, 60);
+           
             ((GLMatrixFunc) gl).glPopMatrix();
+            rings.disable();
         }
         if (showSatellitesOrbit == 1) {
             for (Planet s : satellites) {
@@ -136,11 +175,14 @@ public class Planet {
         }
         if (showSatellites == 1) {
             for (Planet s : satellites) {
+            	
+                moon.bind();
+                moon.enable();
                 s.drawMoon(quadric);
+                moon.disable();
+            	
             }
         }
-
-
         ((GLMatrixFunc) gl).glPopMatrix();
     }
 
