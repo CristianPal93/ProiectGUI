@@ -38,15 +38,7 @@ public class Planet {
         this.glu = glu;
     }
 
-    void setTexture() {
-        String imageName = name.toLowerCase();
-        GLUgl2 glugl = new GLUgl2();
-        System.out.println(imageName);
-        TextureHandler handler = new TextureHandler(gl2, glugl, "/Users/macbook/git/ProiectGUI/ProiectGUI/texture/" + imageName + ".bmp", false);
-        handler.enable();
-    }
 
-    ;
 
     void move(float speedExp) {
         orbitAnimation += orbitSpeed * Math.pow(2.0, speedExp);
@@ -55,7 +47,6 @@ public class Planet {
         }
     }
 
-    ;
 
     void rotate(float speedExp) {
         axisAnimation += 10.0 * Math.pow(2.0, speedExp);
@@ -65,7 +56,7 @@ public class Planet {
         this.glut.glutWireTorus(0.001, distance, 6, 100);
     }
 
-    ;
+
 
     void drawSmallOrbit() {
         ((GLMatrixFunc) gl).glPushMatrix();
@@ -111,7 +102,7 @@ public class Planet {
 //	    gl.glBindTexture(GL.GL_TEXTURE_2D, textureId);
         String imageName = name.toLowerCase();
         GLUgl2 glugl = new GLUgl2();
-        TextureHandler handler = new TextureHandler(gl2, glugl, "/Users/macbook/git/ProiectGUI/ProiectGUI/texture/" + imageName + ".bmp", false);
+        TextureHandler handler = new TextureHandler(gl2, glugl, "C:\\Users\\Mara Sferdian\\Desktop\\ProiectGUI\\ProiectGUI\\texture\\" + imageName + ".bmp", false);
         handler.bind();
         handler.enable();
 
@@ -122,12 +113,16 @@ public class Planet {
         ((GLMatrixFunc) gl).glPopMatrix();
         if (name == "Saturn") {
             // Draw Saturn's rings
+            TextureHandler rings = new TextureHandler(gl2, glugl, "C:\\Users\\Mara Sferdian\\Desktop\\ProiectGUI\\ProiectGUI\\texture\\mercury.bmp", false);
+            rings.bind();
+            rings.enable();
             ((GLMatrixFunc) gl).glPushMatrix();
             gl2.glColor3ub((byte) 158, (byte) 145, (byte) 137);
             ((GLMatrixFunc) gl).glRotatef(-63.0f, 1.0f, 0.0f, 0.0f);
             glut.glutWireTorus(0.15, 4.0, 3, 60);
             glut.glutWireTorus(0.3, 3.25, 3, 60);
             ((GLMatrixFunc) gl).glPopMatrix();
+            rings.disable();
         }
         if (showSatellitesOrbit == 1) {
             for (Planet s : satellites) {
@@ -136,11 +131,13 @@ public class Planet {
         }
         if (showSatellites == 1) {
             for (Planet s : satellites) {
+                TextureHandler moon = new TextureHandler(gl2, glugl, "C:\\Users\\Mara Sferdian\\Desktop\\ProiectGUI\\ProiectGUI\\texture\\mercury.bmp", false);
+                moon.bind();
+                moon.enable();
                 s.drawMoon(quadric);
+                moon.disable();
             }
         }
-
-
         ((GLMatrixFunc) gl).glPopMatrix();
     }
 

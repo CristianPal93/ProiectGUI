@@ -80,11 +80,7 @@ public class MainFrame
         gl.glEnable(GL2.GL_NORMALIZE);
         gl.glEnable(GL2.GL_COLOR_MATERIAL);
         GLUgl2 glugl = new GLUgl2();
-        starsTexture = new TextureHandler(gl, glugl, "/Users/macbook/git/ProiectGUI/ProiectGUI/texture/stars.bmp", false);
-        sun.setTexture();
-        for (Planet p : planets) {
-            p.setTexture();
-        }
+        starsTexture = new TextureHandler(gl, glugl, "C:\\Users\\Mara Sferdian\\Desktop\\ProiectGUI\\ProiectGUI\\texture\\stars.bmp", false);
         gl.glEnable(GL2.GL_LIGHTING);
         float lightPos[] = {0.0f, 0.0f, -45.0f, 1.0f};
         float spotExponent = 1.0f;
@@ -188,41 +184,41 @@ public class MainFrame
                         new Planet(0.7f, 4.5f, 8.5f, 2.11f, "Mercury", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu),
                         new Planet(1.0f, 8.0f, 5.5f, 177.0f, "Venus", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu),
                         new Planet(1.0f, 12.0f, 3.8f, 23.44f, "Earth", new ArrayList<Planet>(
-//                                Arrays.asList(
-//                                        new Planet(0.4f, 2.0f, 5.40f, 0f, "", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu)
-//                                )
+                                Arrays.asList(
+                                        new Planet(0.4f, 2.0f, 5.40f, 0f, "", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu)
+                                )
                         ), canvas.getGL(), this.gl, this.glu),
                         new Planet(0.8f, 16.5f, 2.41f, 25.00f, "Mars", new ArrayList<Planet>(
-//                                Arrays.asList(
-//                                        new Planet(0.2f, 1.4f, 2.30f, 0f, "", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu),
-//                                        new Planet(0.16f, 1.7f, 3.60f, 0f, "", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu)
-                              //  )
+                                Arrays.asList(
+                                        new Planet(0.2f, 1.4f, 2.30f, 0f, "", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu),
+                                        new Planet(0.16f, 1.7f, 3.60f, 0f, "", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu)
+                               )
                                   ), canvas.getGL(), this.gl, this.glu),
-                        new Planet(0.27f, 26.0f, 1.31f, 3.13f, "Jupiter", new ArrayList<Planet>(
-//                                Arrays.asList(
-//                                        new Planet(0.45f, 3.2f, 4.40f, 0f, "", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu),
-//                                        new Planet(0.3f, 4.4f, 5.00f, 0f, "", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu)
-//                                )
+                        new Planet(2.0f, 26.0f, 1.31f, 3.13f, "Jupiter", new ArrayList<Planet>(
+                                Arrays.asList(
+                                        new Planet(0.45f, 3.2f, 4.40f, 0f, "", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu),
+                                        new Planet(0.3f, 4.4f, 5.00f, 0f, "", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu)
+                                )
                         ), canvas.getGL(), this.gl, this.glu),
-                        new Planet(0.24f, 35.0f, 0.97f, 26.70f, "Saturn", new ArrayList<Planet>(
-//                                Arrays.asList(
-//                                        new Planet(0.3f, 3.0f, 2.40f, 0f, "", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu)
-//                                )
+                        new Planet(1.8f, 35.0f, 0.97f, 26.70f, "Saturn", new ArrayList<Planet>(
+                                Arrays.asList(
+                                        new Planet(0.3f, 3.0f, 2.40f, 0f, "", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu)
+                                )
                         ), canvas.getGL(), this.gl, this.glu),
-                        new Planet(0.21f, 42.5f, 0.68f, 97.77f, "Uranus", new ArrayList<Planet>(
-//                                Arrays.asList(
-//                                        new Planet(0.25f, 2.0f, 7.00f, 97.77f, "", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu)
-//                                )
+                        new Planet(1.3f, 42.5f, 0.68f, 97.77f, "Uranus", new ArrayList<Planet>(
+                                Arrays.asList(
+                                        new Planet(0.25f, 2.0f, 7.00f, 97.77f, "", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu)
+                                )
                         ), canvas.getGL(), this.gl, this.glu),
-                        new Planet(0.2f, 0.5f, 0.54f, 28.32f, "Neptune", new ArrayList<Planet>(
-//                                Arrays.asList(
-//                                        new Planet(0.2f, 2.0f, 3.40f, 0f, "", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu)
-//                                )
+                        new Planet(1.3f, 50.2f, 0.54f, 28.32f, "Neptune", new ArrayList<Planet>(
+                                Arrays.asList(
+                                        new Planet(0.2f, 2.0f, 3.40f, 0f, "", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu)
+                                )
                         ), canvas.getGL(), this.gl, this.glu),
-                        new Planet(0.09f, 56.5f, 0.47f, 119.6f, "Pluto", new ArrayList<Planet>(
-//                                Arrays.asList(
-//                                        new Planet(0.2f, 1.5f, 5.00f, 0f, "", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu)
-//                                )
+                        new Planet(0.4f, 56.5f, 0.47f, 119.6f, "Pluto", new ArrayList<Planet>(
+                                Arrays.asList(
+                                        new Planet(0.2f, 1.5f, 5.00f, 0f, "", new ArrayList<Planet>(), canvas.getGL(), this.gl, this.glu)
+                                )
                         ), canvas.getGL(), this.gl, this.glu)
                 ));
 
