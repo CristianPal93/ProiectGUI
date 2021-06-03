@@ -38,9 +38,9 @@ public class MainFrame
      *
      */
 	
-	public static String devPath = "/Users/macbook/git/ProiectGUI/ProiectGUI/texture/"; //cristi
+	 public static String devPath = "/Users/macbook/git/ProiectGUI/ProiectGUI/texture/"; //cristi
 	
-//	public static String devPath = "add your path here!"; //Mara
+	//public static String devPath = "C:\\Users\\Mara Sferdian\\Desktop\\ProiectGUI\\ProiectGUI\\texture\\"; //Mara
 
     int isAnimate = 1;
     int showPlanetOrbits = 1;
@@ -53,12 +53,17 @@ public class MainFrame
     Planet sun;
     List<Planet> planets;
 
+    private int mouseX, mouseY;
+    // Default mode is GL_RENDER;
+    private int mode = GL2.GL_RENDER;
     private static final long serialVersionUID = 1L;
     private GLCanvas canvas;
     private Animator animator;
     private GLU glu;
     private GL2 gl;
     private GL test;
+    private GLUgl2 glugl;
+    List<Particle> particles = new ArrayList<Particle>();
     //	GLU glut = new GLU();
     // For specifying the positions of the clipping planes (increase/decrease the distance) modify this variable.
     // It is used by the glOrtho method.
@@ -226,6 +231,8 @@ public class MainFrame
                         ), canvas.getGL(), this.gl, this.glu)
                 ));
 
+        this.particles.add( new Particle(gl, glugl,devPath+"sun.bmp"));
+
         setup();
     }
 
@@ -235,7 +242,7 @@ public class MainFrame
 
         // Erasing the canvas -- filling it with the clear color.
         gl.glClear(GL.GL_COLOR_BUFFER_BIT);
-        
+
         setCamera(gl, zoom);
         aimCamera(gl, this.glu);
 		moveCamera();
@@ -245,18 +252,6 @@ public class MainFrame
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
         ((GLMatrixFunc) gl).glPushMatrix();
-//        switch (cameraPosition) {
-//            case 0:
-//                this.glu.gluLookAt(0.0, zoom, 50.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-//                break;
-//            case 1:
-//                this.glu.gluLookAt(0.0, 0.0, zoom, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-//                break;
-//            case 2:
-//                this.glu.gluLookAt(0.0, zoom, 0.00001, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-//                break;
-//        }
-//
         if (showPlanetOrbits == 1) {
             orbitalTrails();
         }
@@ -291,7 +286,7 @@ public class MainFrame
         gl.glEnd();
         this.starsTexture.disable();
         ((GLMatrixFunc) gl).glPopMatrix();
-//		
+//
 
         if (isAnimate == 1) {
             sun.rotate(speedExp);
@@ -301,8 +296,17 @@ public class MainFrame
             }
         }
 
-        // Forcing the scene to be rendered.
+        for (Particle comet: particles)
+        {
+            comet.draw(gl);
+        }
+
         gl.glFlush();
+
+        for (Particle comet: particles)
+        {
+            comet.update();
+        }
     }
 
 
@@ -364,7 +368,7 @@ public class MainFrame
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

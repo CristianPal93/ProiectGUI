@@ -66,9 +66,8 @@ public class Planet {
 			gl.glMaterialf(GL2.GL_FRONT, GL2.GL_SHININESS, 0.6f);
 		}
     }
+    /// add here you texture please
     
-    
-
     void setTexture() {
 
     	 GLUgl2 glugl = new GLUgl2();
@@ -141,7 +140,10 @@ public class Planet {
 //	    gl.glBindTexture(GL.GL_TEXTURE_2D, textureId);
         String imageName = name.toLowerCase();
         GLUgl2 glugl = new GLUgl2();
+
         TextureHandler handler = new TextureHandler(gl2, glugl, MainFrame.devPath  + imageName + ".bmp", false);
+
+
         handler.bind();
         handler.enable();
 
@@ -152,7 +154,7 @@ public class Planet {
         ((GLMatrixFunc) gl).glPopMatrix();
         if (name.contentEquals("Saturn")) {
             // Draw Saturn's rings
-           
+//            TextureHandler rings = new TextureHandler(gl2, glugl, MainFrame.devPath+"mercury.bmp", false);
             rings.bind();
             rings.enable();
             ((GLMatrixFunc) gl).glPushMatrix();
@@ -176,11 +178,12 @@ public class Planet {
         if (showSatellites == 1) {
             for (Planet s : satellites) {
             	
+
                 moon.bind();
                 moon.enable();
                 s.drawMoon(quadric);
                 moon.disable();
-            	
+
             }
         }
         ((GLMatrixFunc) gl).glPopMatrix();
