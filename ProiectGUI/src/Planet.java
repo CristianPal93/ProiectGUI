@@ -160,12 +160,12 @@ public class Planet {
             ((GLMatrixFunc) gl).glPushMatrix();
             gl2.glColor3ub((byte) 158, (byte) 145, (byte) 137);
             ((GLMatrixFunc) gl).glRotatef(-63.0f, 1.0f, 0.0f, 0.0f);
-//            glut.glutWireTorus(0.15, 4.0, 3, 60);
+            glut.glutWireTorus(0.15, 4.0, 3, 60);
            
             glut.glutSolidSphere(0.15, 60, 3);
-//            ringHandler.bind();
-//            ringHandler.enable();
-//            glut.glutWireTorus(0.3, 3.25, 3, 60);
+            rings.bind();
+            rings.enable();
+            glut.glutWireTorus(0.3, 3.25, 3, 60);
            
             ((GLMatrixFunc) gl).glPopMatrix();
             rings.disable();

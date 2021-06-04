@@ -402,14 +402,11 @@ public class MainFrame
 		
 		if (event.getKeyCode() == KeyEvent.VK_UP) {
 			cameraElevation -= 1f;
-//			zoom-=1f;
-//			System.out.println("Hello");
 			eyeY+=1f;
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_DOWN) {
 			cameraElevation += 1f;
-//			zoom+=1f;
 			eyeY-=1f;
 
 
@@ -459,12 +456,8 @@ public class MainFrame
 	private void setCamera(GL2 gl, float distance) {
 		gl.glMatrixMode(GL2.GL_PROJECTION);
 		gl.glLoadIdentity();
-
 		float widthHeightRatio = (float) getWidth() / (float) getHeight();
 		glu.gluPerspective(45, widthHeightRatio, 1, 1000);
-//		glu.gluLookAt(0, 0, distance, 0, 0, 0, 0, 1f, 0f);
-//		System.out.println(cameraCoordsPosx+" "+cameraCoordsPosy+" "+cameraCoordsPosz+" "+cameraUpx+" "+cameraUpy+" "+cameraUpz);
-		
 		glu.gluLookAt(eyeX, eyeY, distance, cameraCoordsPosx,
 				cameraCoordsPosy, cameraCoordsPosz, cameraUpx, cameraUpy, cameraUpz);
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
@@ -521,19 +514,12 @@ public class MainFrame
 	public void aimCamera(GL2 gl, GLU glu) {
 		gl.glLoadIdentity();
 
-//		float[] tmp = polarToCartesian(cameraAzimuth, 100.0f, cameraElevation);
-
 		float[] camUp = polarToCartesian(cameraAzimuth, 100.0f, cameraElevation + 90);
 
 		cameraUpx = camUp[0];
 		cameraUpy = camUp[1];
 		cameraUpz = camUp[2];
-//
-//		glu.gluLookAt(cameraCoordsPosx, cameraCoordsPosy, zoom, cameraCoordsPosx + tmp[0],
-//				cameraCoordsPosy + tmp[1], cameraCoordsPosz + tmp[2], cameraUpx, cameraUpy, cameraUpz);
-////		System.out.println(cameraCoordsPosx+" "+cameraCoordsPosy+" "+cameraCoordsPosz+" "+cameraUpx+" "+cameraUpy+" "+cameraUpz);
-//		gl.glMatrixMode(GL2.GL_MODELVIEW);
-//		gl.glLoadIdentity();
+
 		
 
 	}
